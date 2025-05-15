@@ -4,6 +4,9 @@ import LoginPage from "../pages/LoginPage";
 import PrivateRoute from "./PrivateRoute";
 import JobsPage from "../pages/JobsPage";
 import PublicRoute from "./PublicRoute";
+import UsersPage from "../pages/UsersPage";
+import ProfilePage from "../pages/ProfilePage";
+import ProposalsPage from "../pages/ProposalsPage";
 
 const Content = () => {
   return (
@@ -25,10 +28,12 @@ const Content = () => {
             </PrivateRoute>
           }
         >
-          <Route index element={<JobsPage />} />
+          <Route path="/jobs" index element={<JobsPage />} />
+          <Route path="/users" index element={<UsersPage />} />
+          <Route path="/proposals" index element={<ProposalsPage />} />
+          <Route path="/profile" index element={<ProfilePage />} />
+          <Route path="*" element={<p>Not Found</p>} />
         </Route>
-
-        <Route path="*" element={<p>Not Found</p>} />
       </Routes>
     </div>
   );

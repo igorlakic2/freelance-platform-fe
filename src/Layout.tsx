@@ -1,17 +1,25 @@
-import { AppShell, Burger, Text } from "@mantine/core";
+import { AppShell, Burger, NavLink, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "./auth/useAuth";
+import {
+  IconBriefcase2,
+  IconUsers,
+  IconUserSearch,
+  IconUserCircle,
+} from "@tabler/icons-react";
 
 const Layout = () => {
   const { logout } = useAuth();
   const [opened, { toggle }] = useDisclosure();
+  const navigate = useNavigate();
+  const pathname = window.location.pathname;
 
   return (
     <AppShell
       header={{ height: 60 }}
       navbar={{
-        width: 300,
+        width: 250,
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
@@ -27,7 +35,32 @@ const Layout = () => {
         </div>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+      <AppShell.Navbar p="md">
+        <NavLink
+          onClick={() => navigate("/jobs")}
+          label="Jobs"
+          leftSection={<IconBriefcase2 size={16} stroke={1.5} />}
+          active={pathname === "/jobs"}
+        />
+        <NavLink
+          onClick={() => navigate("/users")}
+          label="Users"
+          leftSection={<IconUsers size={16} stroke={1.5} />}
+          active={pathname === "/users"}
+        />
+        <NavLink
+          onClick={() => navigate("/profile")}
+          label="Profile"
+          leftSection={<IconUserCircle size={16} stroke={1.5} />}
+          active={pathname === "/profile"}
+        />
+        <NavLink
+          onClick={() => navigate("/proposals")}
+          label="Proposals"
+          leftSection={<IconUserSearch size={16} stroke={1.5} />}
+          active={pathname === "/proposals"}
+        />
+      </AppShell.Navbar>
 
       <AppShell.Main>
         <Outlet />
