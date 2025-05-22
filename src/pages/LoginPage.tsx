@@ -1,22 +1,65 @@
-import { Button } from "@mantine/core";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Text } from "@mantine/core";
 import { useAuth } from "../auth/useAuth";
 import { useNavigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import type { LoginType } from "../types/AuthTypes";
+import { LoginSchema } from "../validators/AuthValidators";
+import FormProvider from "../components/form/FormProvider";
+import { FormPasswordInput } from "../components/form/FormPasswordInput";
+import { FormTextInput } from "../components/form/FormTextInput";
 
 const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    login("token");
-    navigate("/");
+  const loginMutation = useLogin();
+
+  const formMethods = useForm<LoginType>({
+    resolver: zodResolver(LoginSchema),
+  });
+
+  const { handleSubmit } = formMethods;
+
+  const onSubmit: SubmitHandler<LoginType> = (data) => {
+    loginMutation.mutate(data, {
+      onSuccess: (res) => {
+        navigate("/");
+        login(res.data.data.token);
+      },
+    });
   };
 
   return (
-    <div>
-      <Button variant="filled" onClick={handleLogin} className="p-7">
-        Login
-      </Button>
-    </div>
+    <FormProvider onSubmit={handleSubmit(onSubmit)} methods={formMethods}>
+      <div className="w-full md:w-sm p-8 shadow-md rounded-xl">
+        <Text size="xl" className="text-center">
+          Login
+        </Text>
+        <div className="flex flex-col gap-4 mt-4">
+          <div>
+            <FormTextInput<LoginType> controlKey="email" placeholder="Email" />
+          </div>
+          <div>
+            <FormPasswordInput<LoginType>
+              controlKey="password"
+              placeholder="Password"
+            />
+          </div>
+          <div className="w-full">
+            <Button
+              variant="filled"
+              type="submit"
+              fullWidth
+              className="py-4 text-lg"
+            >
+              Login
+            </Button>
+          </div>
+        </div>
+      </div>
+    </FormProvider>
   );
 };
 

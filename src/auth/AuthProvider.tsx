@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -11,27 +11,57 @@ export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
 );
 
-export const AuthProvider = ({ children }: any) => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const isAuthenticated =
-    localStorage.getItem("loggedIn") === "true" || loggedIn;
-  const [token, setToken] = useState<string | undefined>(
-    localStorage.getItem("token")!
-  );
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [token, setToken] = useState<string | undefined>(undefined);
 
-  const login = (token: string) => {
-    localStorage.setItem("loggedIn", "true");
-    localStorage.setItem("token", token);
-    setToken(token);
-    setLoggedIn(true);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
+  const login = (newToken: string) => {
+    localStorage.setItem("token", newToken);
+    setToken(newToken);
   };
 
   const logout = () => {
-    localStorage.removeItem("loggedIn");
     localStorage.removeItem("token");
     setToken(undefined);
-    setLoggedIn(false);
   };
+
+  const isAuthenticated = !!token;
+
+  useEffect(() => {
+    if (!token) return;
+
+    const getTokenExpiration = (jwt: string): number | null => {
+      try {
+        const payload = JSON.parse(atob(jwt.split(".")[1]));
+        return payload.exp ? payload.exp * 1000 : null;
+      } catch {
+        return null;
+      }
+    };
+
+    const expiration = getTokenExpiration(token);
+    if (!expiration) return;
+
+    const now = Date.now();
+    const timeout = expiration - now;
+
+    if (timeout <= 0) {
+      logout();
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      logout();
+    }, timeout);
+
+    return () => clearTimeout(timer);
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout, token }}>
