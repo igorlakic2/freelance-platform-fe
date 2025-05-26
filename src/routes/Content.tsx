@@ -7,11 +7,28 @@ import UsersPage from "../pages/UsersPage";
 import ProfilePage from "../pages/ProfilePage";
 import ProposalsPage from "../pages/ProposalsPage";
 import JobsPage from "../pages/job/JobsPage";
+import SignUpPage from "../pages/SignUpPage";
 
 const Content = () => {
   return (
     <div>
       <Routes>
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/sign-up"
+          element={
+            <PublicRoute>
+              <SignUpPage />
+            </PublicRoute>
+          }
+        />
         <Route
           path="/login"
           element={

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Text } from "@mantine/core";
 import { useAuth } from "../auth/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { LoginType } from "../types/AuthTypes";
@@ -39,7 +39,11 @@ const LoginPage = () => {
         </Text>
         <div className="flex flex-col gap-4 mt-4">
           <div>
-            <FormTextInput<LoginType> controlKey="email" placeholder="Email" />
+            <FormTextInput<LoginType>
+              controlKey="email"
+              placeholder="Email"
+              withAsterisk
+            />
           </div>
           <div>
             <FormPasswordInput<LoginType>
@@ -57,6 +61,11 @@ const LoginPage = () => {
               Login
             </Button>
           </div>
+        </div>
+        <div>
+          <Text size="sm">
+            Don't have an account? <Link to="/sign-up">Sign up now.</Link>
+          </Text>
         </div>
       </div>
     </FormProvider>
