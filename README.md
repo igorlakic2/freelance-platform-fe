@@ -4,6 +4,8 @@
 
 -Typescript
 
+-Mantine 
+
 -Tailwind
 
 -Unit testing
