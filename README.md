@@ -1,26 +1,18 @@
-# Freelance platform - project plan:
+# Freelance platform 
 
--React
+## Technologies
++ React 
++ Typescript
++ Mantine 
++ Tailwind
++ Unit testing
++ TanStack Query
++ Redux
++ React Hook Form + Zod
 
--Typescript
-
--Mantine 
-
--Tailwind
-
--Unit testing
-
--TanStack Query
-
--Redux
-
--React Hook Form + Zod
-
-# Description:
-
+## Description
 Freelance platform that connects **clients**, who post jobs, with **freelancers**, who can apply for those jobs.
 The application is role-based, with three distinct roles: Administrator, Client, and Freelancer — each with specific permissions and functionalities.
-
 
 Users with the **administrator** role can:
 + Manage all jobs (_create, update, delete, approve_)    
