@@ -1,29 +1,25 @@
 import axios, { type AxiosResponse } from "axios";
-import type { JobCreateType } from "../types/job/JobCreateType";
 import type CommonResponse from "../infrastucture/CommonResponse";
 import type CommonPaginationResponse from "../infrastucture/CommonPaginationResponse";
 import type PaginationProps from "../infrastucture/PaginationProps";
 import Endpoint from "../infrastucture/Endpoint";
 import { axiosConfig } from "../utils/Utils";
-
-export interface Job {
-  _id: string;
-  name: string;
-  description: string;
-}
+import type { JobCreateUpdateDto, JobReadDto } from "../types/JobTypes";
 
 interface JobServicesTypes {
   getJobs: (
     params: PaginationProps
-  ) => Promise<AxiosResponse<CommonPaginationResponse<Job[]>>>;
-  deleteJob: (jobId: string) => Promise<AxiosResponse<CommonResponse<Job>>>;
+  ) => Promise<AxiosResponse<CommonPaginationResponse<JobReadDto[]>>>;
+  deleteJob: (
+    jobId: string
+  ) => Promise<AxiosResponse<CommonResponse<JobReadDto>>>;
   createJob: (
-    job: JobCreateType
-  ) => Promise<AxiosResponse<CommonResponse<Job>>>;
+    job: JobCreateUpdateDto
+  ) => Promise<AxiosResponse<CommonResponse<JobReadDto>>>;
   updateJob: (
     jobId: string,
-    job: JobCreateType
-  ) => Promise<AxiosResponse<CommonResponse<Job>>>;
+    job: JobCreateUpdateDto
+  ) => Promise<AxiosResponse<CommonResponse<JobReadDto>>>;
 }
 
 export default function JobServices(): JobServicesTypes {
@@ -35,11 +31,11 @@ export default function JobServices(): JobServicesTypes {
     return axios.delete(`${Endpoint.JOBS}/${jobId}`);
   };
 
-  const createJob = (job: JobCreateType) => {
+  const createJob = (job: JobCreateUpdateDto) => {
     return axios.post(Endpoint.JOBS, job);
   };
 
-  const updateJob = (jobId: string, job: JobCreateType) => {
+  const updateJob = (jobId: string, job: JobCreateUpdateDto) => {
     return axios.put(`${Endpoint.JOBS}/${jobId}`, job);
   };
 

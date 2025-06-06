@@ -8,7 +8,6 @@ type PrivateRouteProps = {
 
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
 
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
