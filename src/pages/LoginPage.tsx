@@ -33,7 +33,7 @@ const LoginPage = () => {
 
   return (
     <FormProvider onSubmit={handleSubmit(onSubmit)} methods={formMethods}>
-      <div className="w-full md:w-sm p-8 shadow-md rounded-xl">
+      <div className="w-full m-auto md:w-sm p-8 shadow-md rounded-xl">
         <Text size="xl" className="text-center">
           Login
         </Text>
