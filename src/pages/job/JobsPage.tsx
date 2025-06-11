@@ -32,7 +32,12 @@ const JobsPage = () => {
           >
             <Pencil size={18} />
           </ActionButton>
-          <ActionButton size="sm" variant="white" onClick={() => {}}>
+          <ActionButton
+            size="sm"
+            variant="white"
+            color="red"
+            onClick={() => {}}
+          >
             <Trash size={18} />
           </ActionButton>
         </>
@@ -41,7 +46,7 @@ const JobsPage = () => {
   ));
 
   return (
-    <Panel>
+    <Panel title="Jobs">
       <div className="flex">
         <Button
           leftSection={<Plus size={18} />}
