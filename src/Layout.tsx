@@ -36,7 +36,7 @@ const Layout = () => {
         </div>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar p="md" className="navbar">
         <NavLink
           onClick={() => navigate("/jobs")}
           label="Jobs"
