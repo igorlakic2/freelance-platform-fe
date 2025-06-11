@@ -5,6 +5,7 @@
 + Typescript
 + Mantine 
 + Tailwind
++ Sass
 + Unit testing
 + TanStack Query
 + Redux
