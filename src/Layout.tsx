@@ -8,6 +8,7 @@ import {
   Users,
   CircleUserRound,
 } from "lucide-react";
+import logo from "./assets/logo.png";
 
 const Layout = () => {
   const { logout } = useAuth();
@@ -28,7 +29,7 @@ const Layout = () => {
       <AppShell.Header>
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
         <div className="flex justify-between items-center h-full w-full p-3">
-          <span>Logo</span>
+          <img src={logo} width={100} />
           <Text className="cursor-pointer" onClick={logout} size="md">
             Logout
           </Text>
@@ -62,7 +63,7 @@ const Layout = () => {
         />
       </AppShell.Navbar>
 
-      <AppShell.Main>
+      <AppShell.Main className="flex" style={{ backgroundColor: "#f9f9f9" }}>
         <Outlet />
       </AppShell.Main>
     </AppShell>

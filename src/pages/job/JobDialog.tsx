@@ -65,7 +65,7 @@ const JobDialog = ({ opened, dialogFormState, onHide }: JobDialogType) => {
             disabled={
               jobCreateMutation.isPending || jobUpdateMutation.isPending
             }
-            variant="outlined"
+            variant="outline"
           >
             Cancel
           </Button>

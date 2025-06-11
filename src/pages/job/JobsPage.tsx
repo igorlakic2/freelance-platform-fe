@@ -5,6 +5,8 @@ import { useState } from "react";
 import type { DialogForm } from "../../types/CommonTypes";
 import type { JobReadDto } from "../../types/JobTypes";
 import JobDialog from "./JobDialog";
+import Panel from "../../components/Panel";
+import ActionButton from "../../components/ActionButton";
 
 const JobsPage = () => {
   const { data: jobs } = useJobs();
@@ -17,7 +19,7 @@ const JobsPage = () => {
       <td className="text-left p-2">{job.name}</td>
       <td className="text-right">
         <>
-          <Button
+          <ActionButton
             size="sm"
             variant="white"
             onClick={() =>
@@ -28,18 +30,18 @@ const JobsPage = () => {
               })
             }
           >
-            <Pencil color="#000000" size={18} />
-          </Button>
-          <Button size="sm" variant="white">
-            <Trash color="#000000" size={18} />
-          </Button>
+            <Pencil size={18} />
+          </ActionButton>
+          <ActionButton size="sm" variant="white" onClick={() => {}}>
+            <Trash size={18} />
+          </ActionButton>
         </>
       </td>
     </tr>
   ));
 
   return (
-    <div>
+    <Panel>
       <div className="flex">
         <Button
           leftSection={<Plus size={18} />}
@@ -68,7 +70,7 @@ const JobsPage = () => {
           }
         />
       )}
-    </div>
+    </Panel>
   );
 };
 
