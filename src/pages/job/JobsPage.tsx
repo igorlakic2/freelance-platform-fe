@@ -1,15 +1,18 @@
 import { Button, Table } from "@mantine/core";
 import useJobs from "./JobQueries";
-import { Plus, Pencil, Trash } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
 import { useState } from "react";
 import type { DialogForm } from "../../types/CommonTypes";
 import type { JobReadDto } from "../../types/JobTypes";
 import JobDialog from "./JobDialog";
-import Panel from "../../components/Panel";
+import DeleteButton from "../../components/DeleteDialog";
+import useDeleteJob from "./hooks/useDeleteJob";
 import ActionButton from "../../components/ActionButton";
+import Panel from "../../components/Panel";
 
 const JobsPage = () => {
   const { data: jobs } = useJobs();
+  const jobDeleteMutation = useDeleteJob();
   const [dialogFormState, setDialogFormState] = useState<
     DialogForm<JobReadDto>
   >({ visible: false });
@@ -32,14 +35,10 @@ const JobsPage = () => {
           >
             <Pencil size={18} />
           </ActionButton>
-          <ActionButton
-            size="sm"
-            variant="white"
-            color="red"
-            onClick={() => {}}
-          >
-            <Trash size={18} />
-          </ActionButton>
+          <DeleteButton
+            onSubmit={() => jobDeleteMutation.mutate(job._id)}
+            text="Are you sure you want to delete a job?"
+          />
         </>
       </td>
     </tr>

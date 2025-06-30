@@ -30,14 +30,6 @@ const Content = () => {
           }
         />
         <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          }
-        />
-        <Route
           path="/"
           element={
             <PrivateRoute>
