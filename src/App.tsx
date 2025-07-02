@@ -1,6 +1,8 @@
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Content from "./routes/Content";
+import { Notifications } from "@mantine/notifications";
 
 const theme = createTheme({
   colors: {
@@ -23,6 +25,7 @@ const theme = createTheme({
 function App() {
   return (
     <MantineProvider theme={theme}>
+      <Notifications position="top-right" />
       <Content />
     </MantineProvider>
   );
