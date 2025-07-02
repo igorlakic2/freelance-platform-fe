@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import JobServices from "../../../services/JobServices";
 import type { JobCreateUpdateDto } from "../../../types/JobTypes";
+import { handleError, handleSuccess } from "../../../utils/Utils";
 
 export default function useUpdateJob() {
   const { updateJob } = JobServices();
@@ -11,7 +12,8 @@ export default function useUpdateJob() {
       updateJob(params.jobId, params.job),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      handleSuccess("Job updated successfully!");
     },
-    onError: (error) => console.log(error),
+    onError: handleError,
   });
 }
