@@ -1,11 +1,21 @@
 import { createContext, useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
   token?: string;
+  authData: AuthDataType | undefined;
 }
+
+type AuthDataType = {
+  email: string;
+  userId: string;
+  role: string;
+  iat: number;
+  exp: number;
+};
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
@@ -13,6 +23,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | undefined>(undefined);
+  const [authData, setAuthData] = useState<AuthDataType | undefined>();
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -24,17 +35,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = (newToken: string) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
+    const decoded = jwtDecode<AuthDataType>(newToken);
+    setAuthData(decoded);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken(undefined);
+    setAuthData(undefined);
   };
 
   const isAuthenticated = !!token;
 
   useEffect(() => {
     if (!token) return;
+
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+      const decoded = jwtDecode<AuthDataType>(storedToken);
+      setAuthData(decoded);
+    }
 
     const getTokenExpiration = (jwt: string): number | null => {
       try {
@@ -64,7 +85,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, token }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, token, authData }}
+    >
       {children}
     </AuthContext.Provider>
   );

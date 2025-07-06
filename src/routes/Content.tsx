@@ -8,6 +8,8 @@ import ProfilePage from "../pages/ProfilePage";
 import ProposalsPage from "../pages/ProposalsPage";
 import JobsPage from "../pages/job/JobsPage";
 import SignUpPage from "../pages/SignUpPage";
+import UnauthorizedPage from "../pages/UnauthorizedPage";
+import { ROLES } from "../constants/roles";
 
 const Content = () => {
   return (
@@ -37,11 +39,46 @@ const Content = () => {
             </PrivateRoute>
           }
         >
-          <Route path="/jobs" element={<JobsPage />} />
-          <Route path="/users" element={<UsersPage />} />
-          <Route path="/proposals" element={<ProposalsPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route
+            path="jobs"
+            element={
+              <PrivateRoute
+                allowedRoles={[
+                  ROLES.ADMINISTRATOR,
+                  ROLES.CLIENT,
+                  ROLES.FREELANCER,
+                ]}
+              >
+                <JobsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="users"
+            element={
+              <PrivateRoute allowedRoles={[ROLES.ADMINISTRATOR]}>
+                <UsersPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="proposals"
+            element={
+              <PrivateRoute allowedRoles={[ROLES.FREELANCER]}>
+                <ProposalsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <PrivateRoute allowedRoles={[ROLES.CLIENT, ROLES.FREELANCER]}>
+                <ProfilePage />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<p>Not Found</p>} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
         </Route>
       </Routes>
     </div>

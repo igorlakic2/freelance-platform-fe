@@ -11,10 +11,37 @@ import {
 import logo from "./assets/logo.png";
 
 const Layout = () => {
-  const { logout } = useAuth();
+  const { logout, authData } = useAuth();
   const [opened, { toggle }] = useDisclosure();
   const navigate = useNavigate();
   const pathname = window.location.pathname;
+
+  const menuItems = [
+    {
+      label: "Jobs",
+      icon: <Briefcase />,
+      path: "/jobs",
+      roles: ["ADMINISTRATOR", "CLIENT", "FREELANCER"],
+    },
+    {
+      label: "Users",
+      icon: <Users />,
+      path: "/users",
+      roles: ["ADMINISTRATOR"],
+    },
+    {
+      label: "Profile",
+      icon: <CircleUserRound />,
+      path: "/profile",
+      roles: ["CLIENT", "FREELANCER"],
+    },
+    {
+      label: "Proposals",
+      icon: <UserRoundSearch />,
+      path: "/proposals",
+      roles: ["FREELANCER"],
+    },
+  ];
 
   return (
     <AppShell
@@ -37,30 +64,17 @@ const Layout = () => {
       </AppShell.Header>
 
       <AppShell.Navbar p="md" className="navbar">
-        <NavLink
-          onClick={() => navigate("/jobs")}
-          label="Jobs"
-          leftSection={<Briefcase />}
-          active={pathname === "/jobs"}
-        />
-        <NavLink
-          onClick={() => navigate("/users")}
-          label="Users"
-          leftSection={<Users />}
-          active={pathname === "/users"}
-        />
-        <NavLink
-          onClick={() => navigate("/profile")}
-          label="Profile"
-          leftSection={<CircleUserRound />}
-          active={pathname === "/profile"}
-        />
-        <NavLink
-          onClick={() => navigate("/proposals")}
-          label="Proposals"
-          leftSection={<UserRoundSearch />}
-          active={pathname === "/proposals"}
-        />
+        {menuItems
+          .filter((item) => item.roles.includes(authData?.role || ""))
+          .map(({ label, icon, path }) => (
+            <NavLink
+              key={path}
+              onClick={() => navigate(path)}
+              label={label}
+              leftSection={icon}
+              active={pathname === path}
+            />
+          ))}
       </AppShell.Navbar>
 
       <AppShell.Main className="flex" style={{ backgroundColor: "#f9f9f9" }}>
